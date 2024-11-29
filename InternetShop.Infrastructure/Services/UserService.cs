@@ -78,8 +78,6 @@ public class UserService : IUserService
             throw new Exception("Пользователя с данным идентификатором не существует или вы не правильно его указали");
         }
 
-        await _userRepository.RemoveAsync(user);
-
         var hashedPassword = PasswordEncryptionService.HashPassword(request.Password);
 
         var resultUser = new User()
@@ -90,7 +88,7 @@ public class UserService : IUserService
             Password = hashedPassword
         };
 
-        await _userRepository.AddAsync(resultUser);
+        await _userRepository.UpdateAsync(resultUser);
     }
 
     public async Task UpdateUserForAdminByIdAsync(Guid userId, PutUserProfileForAdminRequest request, CancellationToken cancellationToken)

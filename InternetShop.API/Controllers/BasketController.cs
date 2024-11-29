@@ -25,7 +25,7 @@ public class BasketController : ApiControllerBase
     /// <summary>
     /// Удаление товара из корзины
     /// </summary>
-    [HttpDelete("/deleteProduct/{id}")]
+    [HttpDelete("/deleteProduct/")]
     public async Task DeleteProductById(
             [FromServices] IMediator mediator,
             [FromBody] DeleteProductFromBasketByIdRequest request,

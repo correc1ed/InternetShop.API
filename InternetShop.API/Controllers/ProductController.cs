@@ -25,7 +25,7 @@ public class ProductController : ApiControllerBase
     /// <summary>
     /// Обновление информации о товаре
     /// </summary>
-    [HttpPut("{id}")]
+    [HttpPut]
     public async Task UpdateInfoById(
         [FromServices] IMediator mediator,
         [FromQuery] Guid id,

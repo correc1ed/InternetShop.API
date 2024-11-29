@@ -29,10 +29,8 @@ public class User
     /// </summary>
     public bool IsAdministrator { get; set; }
 
-    [JsonConstructor]
     public User() { }
 
-    [JsonConstructor]
     public User(string name, string email, string password, bool isAdministrator)
     {
         Id = Guid.NewGuid();
