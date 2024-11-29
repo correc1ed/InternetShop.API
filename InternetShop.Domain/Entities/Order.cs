@@ -1,5 +1,4 @@
 ﻿using InternetShop.Domain.Entities.Enums;
-using System.Text.Json.Serialization;
 
 namespace InternetShop.Domain.Entities;
 
@@ -35,7 +34,6 @@ public class Order
     /// </summary>
     public DateTime DeliveredDate { get; set; }
 
-    [JsonConstructor]
     public Order() { }
 
     public static Order Create(User user, List<Product> products, Status status, DateTime createdAt, DateTime deliveredDate)

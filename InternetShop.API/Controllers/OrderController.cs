@@ -15,7 +15,7 @@ public class OrderController : ApiControllerBase
     /// <summary>
     /// Получение деталей заказа
     /// </summary>
-    [HttpGet("{id}")]
+    [HttpGet]
     public async Task<GetOrderInfoByIdResponse> GetById(
             [FromServices] IMediator mediator,
             [FromQuery] Guid id,
@@ -36,7 +36,7 @@ public class OrderController : ApiControllerBase
     /// <summary>
     /// Изменение статуса заказа
     /// </summary>
-    [HttpPut("{id}")]
+    [HttpPut]
     public async Task UpdateOrderStatusById(
             [FromServices] IMediator mediator,
             [FromQuery] Guid id,

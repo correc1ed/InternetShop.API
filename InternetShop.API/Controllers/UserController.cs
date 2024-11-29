@@ -19,7 +19,7 @@ public class UserController : ApiControllerBase
     /// <summary>
     /// Получение списка заказов пользователя
     /// </summary>
-    [HttpGet("{id}")]
+    [HttpGet]
     //[Authorize]
     public async Task<GetUserOrderListResponse> GetById(
             [FromServices] IMediator mediator,
@@ -55,7 +55,7 @@ public class UserController : ApiControllerBase
     /// <summary>
     /// Обновление профиля
     /// </summary>
-    [HttpPut("forUser/{id}")]
+    [HttpPut("forUser/")]
     //[Authorize]
     public async Task UpdateUserById(
             [FromServices] IMediator mediator,
@@ -69,7 +69,7 @@ public class UserController : ApiControllerBase
     /// <summary>
     /// Обновление профиля от имени администратора
     /// </summary>
-    [HttpPut("forAdmin/{id}")]
+    [HttpPut("forAdmin/")]
     //[Authorize]
     public async Task UpdateUserForAdminById(
             [FromServices] IMediator mediator,
