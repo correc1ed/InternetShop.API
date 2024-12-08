@@ -28,8 +28,8 @@ public class BasketController : ApiControllerBase
     [HttpDelete("/deleteProduct/")]
     public async Task DeleteProductById(
             [FromServices] IMediator mediator,
-            [FromBody] DeleteProductFromBasketByIdRequest request,
             [FromQuery] Guid id,
+            [FromBody] DeleteProductFromBasketByIdRequest request,
             CancellationToken cancellationToken)
     {
         await mediator.Send(new DeleteProductFromBasketByIdCommand(id, request), cancellationToken);

@@ -26,7 +26,6 @@ public class Program
 
         builder.Services.AddControllers();
 
-
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());

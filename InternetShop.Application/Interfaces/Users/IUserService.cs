@@ -1,13 +1,13 @@
-﻿using InternetShop.UseCases.DTOs.Users.Requests.PostUserLogin;
-using InternetShop.UseCases.DTOs.Users.Requests.PostUserRegistration;
-using InternetShop.UseCases.DTOs.Users.Requests.PutUserProfile;
-using InternetShop.UseCases.DTOs.Users.Requests.PutUserProfileForAdmin;
+﻿using InternetShop.UseCases.Commands.User.PostUserLogin;
+using InternetShop.UseCases.Commands.User.PostUserRegistration;
+using InternetShop.UseCases.Commands.User.PutUserProfile;
+using InternetShop.UseCases.Commands.User.PutUserProfileForAdmin;
 
 namespace InternetShop.UseCases.Interfaces.Users;
 public interface IUserService
 {
-    Task RegisterAsync(PostUserRegistrationRequest request, CancellationToken cancellationToken);
-    Task<string> AuthorizeAsync(PostUserLoginRequest request, CancellationToken cancellationToken);
-    Task UpdateUserByIdAsync(Guid userId, PutUserProfileRequest request, CancellationToken cancellationToken);
-    Task UpdateUserForAdminByIdAsync(Guid userId, PutUserProfileForAdminRequest request, CancellationToken cancellationToken);
+    Task RegisterAsync(PostUserRegistrationCommand request, CancellationToken cancellationToken);
+    Task<string> AuthorizeAsync(PostUserLoginCommand request, CancellationToken cancellationToken);
+    Task UpdateUserByIdAsync(Guid userId, PutUserProfileCommand request, CancellationToken cancellationToken);
+    Task UpdateUserForAdminByIdAsync(Guid userId, PutUserProfileForAdminCommand request, CancellationToken cancellationToken);
 }

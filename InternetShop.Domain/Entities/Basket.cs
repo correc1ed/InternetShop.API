@@ -1,4 +1,5 @@
 ﻿using InternetShop.Domain.Entities.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace InternetShop.Domain.Entities;
 
@@ -7,6 +8,7 @@ public class Basket
     /// <summary>
     /// Идентификатор
     /// </summary>
+    [Key]
     public Guid Id { get; set; }
 
     /// <summary>

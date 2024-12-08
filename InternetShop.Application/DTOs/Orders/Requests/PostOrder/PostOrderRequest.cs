@@ -1,7 +1,8 @@
-﻿using InternetShop.Domain.Entities;
-using InternetShop.Domain.Entities.Enums;
+﻿using InternetShop.Domain.Entities.Enums;
+using System.Text.Json.Serialization;
 
 namespace InternetShop.UseCases.DTOs.Orders.Requests.PostOrder;
+
 public class PostOrderRequest
 {
     /// <summary>
@@ -19,15 +20,23 @@ public class PostOrderRequest
         CreatedAt = request.CreatedAt;
         DeliveredDate = request.DeliveredDate;
     }
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    public PostOrderRequest()
+    {
+        
+    }
     /// <summary>
     /// Пользователь
     /// </summary>
-    public User User { get; set; }
+    public Guid User { get; set; }
 
     /// <summary>
     /// Товары
     /// </summary>
-    public List<Product> Products { get; set; }
+    public List<Guid> Products { get; set; }
 
     /// <summary>
     /// Статус
