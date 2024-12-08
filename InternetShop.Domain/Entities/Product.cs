@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace InternetShop.Domain.Entities;
 
@@ -7,6 +8,7 @@ public class Product
     /// <summary>
     /// Идентификатор
     /// </summary>
+    [Key]
     public Guid Id { get; set; }
 
     /// <summary>

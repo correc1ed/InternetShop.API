@@ -1,9 +1,9 @@
-﻿using InternetShop.UseCases.DTOs.Products.Requests.PostProduct;
-using InternetShop.UseCases.DTOs.Products.Requests.PutProduct;
+﻿using InternetShop.UseCases.Commands.Product.PostProduct;
+using InternetShop.UseCases.Commands.Product.PutProduct;
 
 namespace InternetShop.UseCases.Interfaces.Products;
 public interface IProductService
 {
-    Task PostAddProductAsync(PostProductRequest request, CancellationToken cancellationToken);
-    Task PutUpdateProductInfoAsync(Guid id, PutProductRequest request, CancellationToken cancellationToken);
+    Task PostAddProductAsync(PostProductCommand request, CancellationToken cancellationToken);
+    Task PutUpdateProductInfoAsync(Guid id, PutProductCommand request, CancellationToken cancellationToken);
 }

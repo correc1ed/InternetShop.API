@@ -1,6 +1,6 @@
 ﻿using InternetShop.Domain.Entities;
 using InternetShop.Domain.Interfaces.Repository;
-using InternetShop.UseCases.DTOs.Baskets.Requests.PostAddProductToBasketById;
+using InternetShop.UseCases.Commands.Basket.PostAddProductToBasketById;
 using InternetShop.UseCases.Interfaces.Baskets;
 
 namespace InternetShop.Infrastructure.Services;
@@ -20,12 +20,11 @@ public class BasketService : IBasketService
         _productRepository = productRepository;
     }
 
-    public async Task AddProductAsync(PostAddProductToBasketByIdRequest request, CancellationToken cancellationToken)
+    public async Task AddProductAsync(PostAddProductToBasketByIdCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(request.UserId);
 
         var basket = await _basketRepository.GetByUserIdAsync(user.Id, cancellationToken);
-
 
         var product = new Product()
         {
@@ -49,6 +48,10 @@ public class BasketService : IBasketService
             };
         }
         await _productRepository.AddAsync(product);
+
+        basket.Products.Add(product);
+
+        await _basketRepository.UpdateAsync(basket);
     }
 
     public async Task DeleteProductByIdAsync(Guid userId, Guid productId, CancellationToken cancellationToken)

@@ -18,7 +18,7 @@ public class OrderDTO
     /// <summary>
     /// Товары
     /// </summary>
-    public List<ProductDTO> ProductDTOs { get; set; }
+    public List<Guid> ProductDTOs { get; set; }
 
     /// <summary>
     /// Статус
@@ -34,7 +34,7 @@ public class OrderDTO
     /// Дата доставки
     /// </summary>
     public DateTime DeliveredDate { get; set; }
-    public static OrderDTO Create(UserDTO userDTO, List<ProductDTO> productDTOs, UserStatuses statusDTO, DateTime createdAt, DateTime deliveredDate)
+    public static OrderDTO Create(UserDTO userDTO, List<Guid> productDTOs, UserStatuses statusDTO, DateTime createdAt, DateTime deliveredDate)
     {
         return new OrderDTO()
         {

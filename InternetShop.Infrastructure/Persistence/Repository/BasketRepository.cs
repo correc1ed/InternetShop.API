@@ -53,9 +53,10 @@ public class BasketRepository : IBasketRepository
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
-    public async Task RemoveProduct(Guid productId, Guid userId)
+    public async Task RemoveProduct(Guid userId, Guid productId)
     {
         var basket = await _dbContext.Baskets
+            .Include(p => p.User)
             .Include(p => p.Products)
             .FirstOrDefaultAsync(b => b.User.Id == userId);
 
@@ -68,13 +69,15 @@ public class BasketRepository : IBasketRepository
         if (product is null)
             throw new ArgumentNullException(nameof(product));
 
-        basket.Products.Remove(product);
+        _dbContext.Products.Remove(product);
 
         await _dbContext.SaveChangesAsync();
     }
-    public Task UpdateAsync(Basket entity)
+    public async Task UpdateAsync(Basket entity)
     {
-        throw new NotImplementedException();
+        _dbContext.Baskets.Update(entity);
+
+        await _dbContext.SaveChangesAsync();
     }
     public async Task<IEnumerable<Basket>> GetAllAsync()
     {

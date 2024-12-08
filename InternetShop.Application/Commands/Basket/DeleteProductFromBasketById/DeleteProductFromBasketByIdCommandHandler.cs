@@ -7,7 +7,7 @@ namespace InternetShop.UseCases.Commands.Basket.DeleteProductFromBasketById;
 /// Обработчик <see cref="DeleteProductFromBasketByIdCommand"/>
 /// </summary>
 /// 
-public class DeleteProductFromBasketByIdCommandHandler : IRequest<DeleteProductFromBasketByIdCommand>
+public class DeleteProductFromBasketByIdCommandHandler : IRequestHandler<DeleteProductFromBasketByIdCommand>
 {
     private readonly IBasketService _basketService;
 

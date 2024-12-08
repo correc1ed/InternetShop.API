@@ -35,7 +35,7 @@ public static class DTOconvertService
         {
             Id = order.Id,
             UserDTO = ToUserDTO(order.User),
-            ProductDTOs = ToProductDTOs(order.Products),
+            ProductDTOs = order.Products,
             StatusDTO = ToStatusDTO(order.Status),
             CreatedAt = order.CreatedAt,
             DeliveredDate = order.DeliveredDate
@@ -47,7 +47,7 @@ public static class DTOconvertService
         {
             Id = orderDTO.Id,
             User = ToUser(orderDTO.UserDTO),
-            Products = ToProducts(orderDTO.ProductDTOs),
+            Products = orderDTO.ProductDTOs,
             Status = ToStatus(orderDTO.StatusDTO),
             CreatedAt = orderDTO.CreatedAt,
             DeliveredDate = orderDTO.DeliveredDate

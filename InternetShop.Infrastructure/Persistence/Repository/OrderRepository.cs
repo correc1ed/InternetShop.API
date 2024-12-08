@@ -1,6 +1,5 @@
 ﻿using InternetShop.Domain.Entities;
 using InternetShop.Domain.Interfaces.Repository;
-using InternetShop.UseCases.DTOs.Orders.Responses.GetOrderInformationById;
 using Microsoft.EntityFrameworkCore;
 
 namespace InternetShop.Infrastructure.Persistence.Repository;
@@ -17,6 +16,7 @@ public class OrderRepository : IOrderRepository
 
     public async Task AddAsync(Order entity)
     {
+        _dbContext.Users.Update(entity.User);
         await _dbContext.Orders.AddAsync(entity);
 
         await _dbContext.SaveChangesAsync();
@@ -33,6 +33,8 @@ public class OrderRepository : IOrderRepository
     public async Task<Order?> GetByIdAsync(Guid id)
     {
         var result = await _dbContext.Orders
+            .Include(u => u.User)
+            .AsNoTracking()
             .FirstOrDefaultAsync(o => o.Id == id);
 
         return result;
@@ -40,12 +42,8 @@ public class OrderRepository : IOrderRepository
 
     public async Task<Order> GetOrderInfoByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        /*
-         * (id есть, данные в бд есть — а в переменную ничерта не записывается) Наверное очередная глупая ошибка которую я упустил
-         * */
-        var order = await _dbContext.Orders // вот тут неведомая ошибка.
+        var order = await _dbContext.Orders
                 .Include(x => x.User)
-                .Include(x => x.Products)
                 .FirstOrDefaultAsync(o => o.Id == id)
             ;
 
@@ -76,6 +74,8 @@ public class OrderRepository : IOrderRepository
 
     public async Task UpdateAsync(Order entity)
     {
-        throw new NotImplementedException();
+        _dbContext.Orders.Update(entity);
+
+        await _dbContext.SaveChangesAsync();
     }
 }

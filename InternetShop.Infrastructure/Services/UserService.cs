@@ -1,9 +1,9 @@
 ﻿using InternetShop.Domain.Entities;
 using InternetShop.Domain.Interfaces.Repository;
-using InternetShop.UseCases.DTOs.Users.Requests.PostUserLogin;
-using InternetShop.UseCases.DTOs.Users.Requests.PostUserRegistration;
-using InternetShop.UseCases.DTOs.Users.Requests.PutUserProfile;
-using InternetShop.UseCases.DTOs.Users.Requests.PutUserProfileForAdmin;
+using InternetShop.UseCases.Commands.User.PostUserLogin;
+using InternetShop.UseCases.Commands.User.PostUserRegistration;
+using InternetShop.UseCases.Commands.User.PutUserProfile;
+using InternetShop.UseCases.Commands.User.PutUserProfileForAdmin;
 using InternetShop.UseCases.Interfaces.Jwt;
 using InternetShop.UseCases.Interfaces.Users;
 
@@ -22,7 +22,7 @@ public class UserService : IUserService
         _jwtProvider = jwtProvider;
     }
 
-    public async Task RegisterAsync(PostUserRegistrationRequest request, CancellationToken cancellationToken)
+    public async Task RegisterAsync(PostUserRegistrationCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -40,7 +40,7 @@ public class UserService : IUserService
         await _userRepository.AddAsync(user);
     }
 
-    public async Task<string> AuthorizeAsync(PostUserLoginRequest request, CancellationToken cancellationToken)
+    public async Task<string> AuthorizeAsync(PostUserLoginCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -66,7 +66,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task UpdateUserByIdAsync(Guid userId, PutUserProfileRequest request, CancellationToken cancellationToken)
+    public async Task UpdateUserByIdAsync(Guid userId, PutUserProfileCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -91,7 +91,7 @@ public class UserService : IUserService
         await _userRepository.UpdateAsync(resultUser);
     }
 
-    public async Task UpdateUserForAdminByIdAsync(Guid userId, PutUserProfileForAdminRequest request, CancellationToken cancellationToken)
+    public async Task UpdateUserForAdminByIdAsync(Guid userId, PutUserProfileForAdminCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -102,8 +102,6 @@ public class UserService : IUserService
         {
             throw new Exception("Пользователя с данным идентификатором не существует или вы не правильно его указали");
         }
-
-        await _userRepository.RemoveAsync(user);
 
         var hashedPassword = PasswordEncryptionService.HashPassword(request.Password);
 
@@ -116,6 +114,6 @@ public class UserService : IUserService
             IsAdministrator = request.IsAdministrator
         };
 
-        await _userRepository.AddAsync(resultUser);
+        await _userRepository.UpdateAsync(resultUser);
     }
 }

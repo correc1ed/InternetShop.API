@@ -19,7 +19,6 @@ public class UserRepository : IUserRepository
         }
         var orders = _dbContext.Orders
             .Include(u => u.User)
-            .Include(p => p.Products)
             .Where(o => o.User.Id == userId).ToList();
 
         if (orders == null || orders.Count == 0)
@@ -49,6 +48,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByIdAsync(Guid id)
     {
         var result = await _dbContext.Users
+            .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == id);
 
         return result;

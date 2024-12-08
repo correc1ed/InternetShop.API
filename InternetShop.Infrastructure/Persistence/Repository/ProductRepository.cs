@@ -30,6 +30,7 @@ public class ProductRepository : IProductRepository
     public async Task<Product?> GetByIdAsync(Guid id)
     {
         var result = await _dbContext.Products
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
 
         return result;
@@ -42,8 +43,10 @@ public class ProductRepository : IProductRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public Task UpdateAsync(Product entity)
+    public async Task UpdateAsync(Product entity)
     {
-        throw new NotImplementedException();
+        _dbContext.Products.Update(entity);
+
+        await _dbContext.SaveChangesAsync();
     }
 }
