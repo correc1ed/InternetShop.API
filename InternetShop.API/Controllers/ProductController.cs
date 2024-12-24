@@ -3,6 +3,7 @@ using InternetShop.UseCases.Commands.Product.PutProduct;
 using InternetShop.UseCases.DTOs.Products.Requests.PostProduct;
 using InternetShop.UseCases.DTOs.Products.Requests.PutProduct;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InternetShop.API.Controllers;
@@ -13,6 +14,7 @@ public class ProductController : ApiControllerBase
     /// <summary>
     /// Добавление товара
     /// </summary>
+    [Authorize(Policy = "AdminPolicy")]
     [HttpPost]
     public async Task Add(
         [FromServices] IMediator mediator,
@@ -25,6 +27,7 @@ public class ProductController : ApiControllerBase
     /// <summary>
     /// Обновление информации о товаре
     /// </summary>
+    [Authorize(Policy = "AdminPolicy")]
     [HttpPut]
     public async Task UpdateInfoById(
         [FromServices] IMediator mediator,

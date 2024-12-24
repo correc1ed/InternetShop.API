@@ -4,6 +4,7 @@ using InternetShop.UseCases.Commands.User.PostUserLogin;
 using InternetShop.UseCases.Commands.User.PostUserRegistration;
 using InternetShop.UseCases.Commands.User.PutUserProfile;
 using InternetShop.UseCases.Commands.User.PutUserProfileForAdmin;
+using InternetShop.UseCases.DTOs.Users;
 using InternetShop.UseCases.Interfaces.Jwt;
 using InternetShop.UseCases.Interfaces.Users;
 
@@ -40,7 +41,7 @@ public class UserService : IUserService
         await _userRepository.AddAsync(user);
     }
 
-    public async Task<string> AuthorizeAsync(PostUserLoginCommand request, CancellationToken cancellationToken)
+    public async Task<UserDTO> AuthorizeAsync(PostUserLoginCommand request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -58,7 +59,7 @@ public class UserService : IUserService
         {
             var token = _jwtProvider.GenerateToken(user);
 
-            return token;
+            return DTOconvertService.ToUserDTO(user);
         }
         else
         {

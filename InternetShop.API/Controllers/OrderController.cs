@@ -5,6 +5,7 @@ using InternetShop.UseCases.DTOs.Orders.Requests.PutOrderStatus;
 using InternetShop.UseCases.DTOs.Orders.Responses.GetOrderInformationById;
 using InternetShop.UseCases.Queries.Order.GetOrderInformation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InternetShop.API.Controllers;
@@ -15,6 +16,7 @@ public class OrderController : ApiControllerBase
     /// <summary>
     /// Получение деталей заказа
     /// </summary>
+    //[Authorize(Policy = "UserPolicy")]
     [HttpGet]
     public async Task<GetOrderInfoByIdResponse> GetById(
             [FromServices] IMediator mediator,
@@ -24,6 +26,7 @@ public class OrderController : ApiControllerBase
     /// <summary>
     /// Создание заказа
     /// </summary>
+    //[Authorize(Policy = "UserPolicy")]
     [HttpPost]
     public async Task AddOrder(
             [FromServices] IMediator mediator,
@@ -36,6 +39,7 @@ public class OrderController : ApiControllerBase
     /// <summary>
     /// Изменение статуса заказа
     /// </summary>
+    //[Authorize(Policy = "UserPolicy")]
     [HttpPut]
     public async Task UpdateOrderStatusById(
             [FromServices] IMediator mediator,

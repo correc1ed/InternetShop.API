@@ -11,6 +11,7 @@ using InternetShop.UseCases.Commands.User.PostUserLogin;
 using InternetShop.UseCases.Commands.User.PostUserRegistration;
 using InternetShop.UseCases.Commands.User.PutUserProfile;
 using InternetShop.UseCases.Queries.Order.GetOrderInformation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -49,6 +50,21 @@ public class Program
 
         builder.Services.AddInternetShop();
 
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/login"; // ”кажите путь к странице входа
+                options.LogoutPath = "/logout"; // ”кажите путь к странице выхода
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5); // ¬рем€ жизни Cookie
+            });
+
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("true"));
+
+            options.AddPolicy("UserPolicy", policy => policy.RequireRole("false"));
+        });
+
         builder.Services.AddDbContext<EfContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -61,9 +77,11 @@ public class Program
             app.UseSwaggerUI();
         }
 
-         app.UseHttpsRedirection();
+        app.UseHttpsRedirection();
 
-          app.UseAuthorization();
+        app.UseAuthentication();
+
+        app.UseAuthorization();
 
         app.MapControllers();
 

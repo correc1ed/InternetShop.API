@@ -1,8 +1,9 @@
-﻿using InternetShop.UseCases.Interfaces.Users;
+﻿using InternetShop.UseCases.DTOs.Users;
+using InternetShop.UseCases.Interfaces.Users;
 using MediatR;
 
 namespace InternetShop.UseCases.Commands.User.PostUserLogin;
-public class PostUserLoginCommandHandler : IRequestHandler<PostUserLoginCommand>
+public class PostUserLoginCommandHandler : IRequestHandler<PostUserLoginCommand, UserDTO>
 {
     private readonly IUserService _userService;
 
@@ -12,8 +13,10 @@ public class PostUserLoginCommandHandler : IRequestHandler<PostUserLoginCommand>
     {
         _userService = userService;
     }
-    async Task IRequestHandler<PostUserLoginCommand>.Handle(PostUserLoginCommand request, CancellationToken cancellationToken)
-    {
-        await _userService.AuthorizeAsync(request, cancellationToken);
+
+    public async Task<UserDTO> Handle(PostUserLoginCommand request, CancellationToken cancellationToken)
+    { 
+        var result = await _userService.AuthorizeAsync(request, cancellationToken);
+        return result;
     }
 }
