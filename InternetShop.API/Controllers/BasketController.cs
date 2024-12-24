@@ -3,6 +3,7 @@ using InternetShop.UseCases.Commands.Basket.PostAddProductToBasketById;
 using InternetShop.UseCases.DTOs.Baskets.Requests.DeleteProductFromBasketById;
 using InternetShop.UseCases.DTOs.Baskets.Requests.PostAddProductToBasketById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InternetShop.API.Controllers;
@@ -13,6 +14,7 @@ public class BasketController : ApiControllerBase
     /// <summary>
     /// Добавление товара в корзину
     /// </summary>
+    //[Authorize(Policy = "UserPolicy")]
     [HttpPost("/addProduct")]
     public async Task AddProduct(
             [FromServices] IMediator mediator,
@@ -25,6 +27,7 @@ public class BasketController : ApiControllerBase
     /// <summary>
     /// Удаление товара из корзины
     /// </summary>
+    //[Authorize(Policy = "UserPolicy")]
     [HttpDelete("/deleteProduct/")]
     public async Task DeleteProductById(
             [FromServices] IMediator mediator,
