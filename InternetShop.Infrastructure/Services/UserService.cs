@@ -5,22 +5,18 @@ using InternetShop.UseCases.Commands.User.PostUserRegistration;
 using InternetShop.UseCases.Commands.User.PutUserProfile;
 using InternetShop.UseCases.Commands.User.PutUserProfileForAdmin;
 using InternetShop.UseCases.DTOs.Users;
-using InternetShop.UseCases.Interfaces.Jwt;
 using InternetShop.UseCases.Interfaces.Users;
 
 namespace InternetShop.Infrastructure.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IJwtProvider _jwtProvider;
 
     public UserService(
-        IUserRepository userRepository,
-        IJwtProvider jwtProvider
+        IUserRepository userRepository
     )
     {
         _userRepository = userRepository;
-        _jwtProvider = jwtProvider;
     }
 
     public async Task RegisterAsync(PostUserRegistrationCommand request, CancellationToken cancellationToken)
@@ -57,8 +53,6 @@ public class UserService : IUserService
 
         if (PasswordEncryptionService.VerifyPassword(request.Password, user.Password))
         {
-            var token = _jwtProvider.GenerateToken(user);
-
             return DTOconvertService.ToUserDTO(user);
         }
         else

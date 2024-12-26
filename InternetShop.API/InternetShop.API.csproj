@@ -11,13 +11,15 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\InternetShop.Application\InternetShop.UseCases.csproj" />
-    <ProjectReference Include="..\InternetShop.Infrastructure\InternetShop.Infrastructure.csproj" />
+    <ProjectReference Include="..\InternetShop.CompositionRoot\InternetShop.CompositionRoot.csproj" />
   </ItemGroup>
 
 </Project>
