@@ -1,6 +1,4 @@
-using InternetShop.Infrastructure;
-using InternetShop.Infrastructure.Extensions.DependencyInjection;
-using InternetShop.Infrastructure.Services.Jwt;
+using InternetShop.CompositionRoot.Extensions.DependencyInjection;
 using InternetShop.UseCases.Commands.Basket.DeleteProductFromBasketById;
 using InternetShop.UseCases.Commands.Basket.PostAddProductToBasketById;
 using InternetShop.UseCases.Commands.Order.PostOrder;
@@ -44,8 +42,6 @@ public class Program
 
         builder.Services.AddEndpointsApiExplorer();
 
-        builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
-
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddInternetShop();
@@ -65,7 +61,7 @@ public class Program
             options.AddPolicy("UserPolicy", policy => policy.RequireRole("false"));
         });
 
-        builder.Services.AddDbContext<EfContext>(options =>
+        builder.Services.AddDbContext<Infrastructure.EfContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         var app = builder.Build();
