@@ -17,70 +17,75 @@ namespace InternetShop.API;
 
 public class Program
 {
-    public static void Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+	public static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
+		// Add services to the container.
 
-        builder.Services.AddControllers();
+		builder.Services.AddControllers();
 
-        builder.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            cfg.RegisterServicesFromAssembly(typeof(DeleteProductFromBasketByIdCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PostAddProductToBasketByIdCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(GetOrderInformationQuery).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PostOrderCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PutOrderStatusCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PostProductCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PutProductCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PostUserLoginCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PostUserRegistrationCommand).Assembly);
-            cfg.RegisterServicesFromAssembly(typeof(PutUserProfileCommand).Assembly);
-        });
+		builder.Services.AddMediatR(cfg =>
+		{
+			var assemblies = new[]
+			{
+				Assembly.GetExecutingAssembly(),
+				typeof(DeleteProductFromBasketByIdCommand).Assembly,
+				typeof(PostAddProductToBasketByIdCommand).Assembly,
+				typeof(GetOrderInformationQuery).Assembly,
+				typeof(PostOrderCommand).Assembly,
+				typeof(PutOrderStatusCommand).Assembly,
+				typeof(PostProductCommand).Assembly,
+				typeof(PutProductCommand).Assembly,
+				typeof(PostUserLoginCommand).Assembly,
+				typeof(PostUserRegistrationCommand).Assembly,
+				typeof(PutUserProfileCommand).Assembly
+			};
 
-        builder.Services.AddEndpointsApiExplorer();
+			cfg.RegisterServicesFromAssemblies(assemblies);
+		});
 
-        builder.Services.AddSwaggerGen();
+		builder.Services.AddEndpointsApiExplorer();
 
-        builder.Services.AddInternetShop();
+		builder.Services.AddSwaggerGen();
 
-        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.LoginPath = "/login"; // ”кажите путь к странице входа
-                options.LogoutPath = "/logout"; // ”кажите путь к странице выхода
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5); // ¬рем€ жизни Cookie
-            });
+		builder.Services.AddServicesAndRepositories();
 
-        builder.Services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminPolicy", policy => policy.RequireRole("true"));
+		builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+			.AddCookie(options =>
+			{
+				options.LoginPath = "/login"; // ”кажите путь к странице входа
+				options.LogoutPath = "/logout"; // ”кажите путь к странице выхода
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(5); // ¬рем€ жизни Cookie
+			});
 
-            options.AddPolicy("UserPolicy", policy => policy.RequireRole("false"));
-        });
+		builder.Services.AddAuthorization(options =>
+		{
+			options.AddPolicy("AdminPolicy", policy => policy.RequireRole("true", "false"));
 
-        builder.Services.AddDbContext<Infrastructure.EfContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+			options.AddPolicy("UserPolicy", policy => policy.RequireRole("false"));
+		});
 
-        var app = builder.Build();
+		builder.Services.AddDbContext<Infrastructure.EfContext>(options =>
+			options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+		var app = builder.Build();
 
-        app.UseHttpsRedirection();
+		// Configure the HTTP request pipeline.
+		if (app.Environment.IsDevelopment())
+		{
+			app.UseSwagger();
+			app.UseSwaggerUI();
+		}
 
-        app.UseAuthentication();
+		app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+		app.UseAuthentication();
 
-        app.MapControllers();
+		app.UseAuthorization();
 
-        app.Run();
-    }
+		app.MapControllers();
+
+		app.Run();
+	}
 }

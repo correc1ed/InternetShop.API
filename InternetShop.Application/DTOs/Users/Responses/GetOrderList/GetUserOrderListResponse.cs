@@ -12,5 +12,5 @@ public class GetUserOrderListResponse
     /// <summary>
     /// Список заказов
     /// </summary>
-    public List<Order> Orders { get; set; }
+    public IEnumerable<Order> Orders { get; set; }
 }

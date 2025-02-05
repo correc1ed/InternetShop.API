@@ -53,7 +53,7 @@ public class UserService : IUserService
 
         if (PasswordEncryptionService.VerifyPassword(request.Password, user.Password))
         {
-            return DTOconvertService.ToUserDTO(user);
+            return LocalMapperService.ToUserDTO(user);
         }
         else
         {

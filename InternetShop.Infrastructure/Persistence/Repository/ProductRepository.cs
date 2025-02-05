@@ -11,11 +11,15 @@ public class ProductRepository : IProductRepository
     {
         _dbContext = db;
     }
-    public DbSet<Product> Entities => throw new NotImplementedException();
 
     public async Task AddAsync(Product entity)
-    {
-        await _dbContext.Products.AddAsync(entity);
+	{
+		if (entity == null)
+		{
+			throw new ArgumentException("Добавляемая сущность не может быть пустой.", nameof(entity));
+		}
+
+		await _dbContext.Products.AddAsync(entity);
 
         await _dbContext.SaveChangesAsync();
     }
@@ -24,12 +28,22 @@ public class ProductRepository : IProductRepository
     {
         var result = await _dbContext.Products.ToListAsync();
 
-        return result;
+		if (result == null)
+		{
+			throw new ArgumentException("Список товаров в бд пуст.", nameof(result));
+		}
+
+		return result;
     }
 
     public async Task<Product?> GetByIdAsync(Guid id)
     {
-        var result = await _dbContext.Products
+		if (id == Guid.Empty)
+		{
+			throw new ArgumentException("Идентификатор товара не может быть пустым.", nameof(id));
+		}
+
+		var result = await _dbContext.Products
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -37,15 +51,25 @@ public class ProductRepository : IProductRepository
     }
 
     public async Task RemoveAsync(Product entity)
-    {
-        _dbContext.Products.Remove(entity);
+	{
+		if (entity == null)
+		{
+			throw new ArgumentException("Удаляемая сущность не может быть пустой.", nameof(entity));
+		}
+
+		_dbContext.Products.Remove(entity);
 
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Product entity)
-    {
-        _dbContext.Products.Update(entity);
+	{
+		if (entity == null)
+		{
+			throw new ArgumentException("Обновляемая сущность не может быть пустой.", nameof(entity));
+		}
+
+		_dbContext.Products.Update(entity);
 
         await _dbContext.SaveChangesAsync();
     }

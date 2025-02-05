@@ -12,11 +12,14 @@ public class OrderRepository : IOrderRepository
         _dbContext = db;
     }
 
-    public DbSet<Order> Entities => throw new NotImplementedException();
-
     public async Task AddAsync(Order entity)
-    {
-        _dbContext.Users.Update(entity.User);
+	{
+		if (entity == null)
+		{
+			throw new ArgumentException("Добавляемая сущность не может быть пустой.", nameof(entity));
+		}
+
+		_dbContext.Users.Update(entity.User);
         await _dbContext.Orders.AddAsync(entity);
 
         await _dbContext.SaveChangesAsync();
@@ -24,15 +27,25 @@ public class OrderRepository : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetAllAsync()
     {
-        var results = await _dbContext.Orders
+        var result = await _dbContext.Orders
             .ToListAsync();
 
-        return results;
+		if (result == null)
+		{
+			throw new ArgumentException("Список заказов в бд пуст.", nameof(result));
+		}
+
+		return result;
     }
 
     public async Task<Order?> GetByIdAsync(Guid id)
-    {
-        var result = await _dbContext.Orders
+	{
+		if (id == Guid.Empty)
+		{
+			throw new ArgumentException("Идентификатор заказа не может быть пустым.", nameof(id));
+		}
+
+		var result = await _dbContext.Orders
             .Include(u => u.User)
             .AsNoTracking()
             .FirstOrDefaultAsync(o => o.Id == id);
@@ -41,8 +54,13 @@ public class OrderRepository : IOrderRepository
     }
 
     public async Task<Order> GetOrderInfoByIdAsync(Guid id, CancellationToken cancellationToken)
-    {
-        var order = await _dbContext.Orders
+	{
+		if (id == Guid.Empty)
+		{
+			throw new ArgumentException("Идентификатор заказа не может быть пустым.", nameof(id));
+		}
+
+		var order = await _dbContext.Orders
                 .Include(x => x.User)
                 .FirstOrDefaultAsync(o => o.Id == id)
             ;
@@ -66,15 +84,25 @@ public class OrderRepository : IOrderRepository
     }
 
     public async Task RemoveAsync(Order entity)
-    {
-        _dbContext.Orders.Remove(entity);
+	{
+		if (entity == null)
+		{
+			throw new ArgumentException("Удаляемая сущность не может быть пустой.", nameof(entity));
+		}
+
+		_dbContext.Orders.Remove(entity);
 
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Order entity)
-    {
-        _dbContext.Orders.Update(entity);
+	{
+		if (entity == null)
+		{
+			throw new ArgumentException("Обновляемая сущность не может быть пустой.", nameof(entity));
+		}
+
+		_dbContext.Orders.Update(entity);
 
         await _dbContext.SaveChangesAsync();
     }

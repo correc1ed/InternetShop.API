@@ -5,7 +5,7 @@ using InternetShop.UseCases.DTOs.Products;
 using InternetShop.UseCases.DTOs.Users;
 
 namespace InternetShop.Infrastructure.Services;
-public static class DTOconvertService
+public static class LocalMapperService
 {
     public static UserDTO ToUserDTO(User user)
     {
