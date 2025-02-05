@@ -9,32 +9,32 @@ using Microsoft.AspNetCore.Mvc;
 namespace InternetShop.API.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class BasketController : ApiControllerBase
+public class BasketController : ControllerBase
 {
-    /// <summary>
-    /// Добавление товара в корзину
-    /// </summary>
-    //[Authorize(Policy = "UserPolicy")]
-    [HttpPost("/addProduct")]
-    public async Task AddProduct(
-            [FromServices] IMediator mediator,
-            [FromBody] PostAddProductToBasketByIdRequest request,
-            CancellationToken cancellationToken)
-    {
-        await mediator.Send(new PostAddProductToBasketByIdCommand(request), cancellationToken);
-    }
+	/// <summary>
+	/// Добавление товара в корзину
+	/// </summary>
+	[Authorize(Policy = "UserPolicy")]
+	[HttpPost("/addProduct")]
+	public async Task AddProduct(
+			[FromServices] IMediator mediator,
+			[FromBody] PostAddProductToBasketByIdRequest request,
+			CancellationToken cancellationToken)
+	{
+		await mediator.Send(new PostAddProductToBasketByIdCommand(request), cancellationToken);
+	}
 
-    /// <summary>
-    /// Удаление товара из корзины
-    /// </summary>
-    //[Authorize(Policy = "UserPolicy")]
-    [HttpDelete("/deleteProduct/")]
-    public async Task DeleteProductById(
-            [FromServices] IMediator mediator,
-            [FromQuery] Guid id,
-            [FromBody] DeleteProductFromBasketByIdRequest request,
-            CancellationToken cancellationToken)
-    {
-        await mediator.Send(new DeleteProductFromBasketByIdCommand(id, request), cancellationToken);
-    }
+	/// <summary>
+	/// Удаление товара из корзины
+	/// </summary>
+	[Authorize(Policy = "UserPolicy")]
+	[HttpDelete("/deleteProduct/")]
+	public async Task DeleteProductById(
+			[FromServices] IMediator mediator,
+			[FromQuery] Guid id,
+			[FromBody] DeleteProductFromBasketByIdRequest request,
+			CancellationToken cancellationToken)
+	{
+		await mediator.Send(new DeleteProductFromBasketByIdCommand(id, request), cancellationToken);
+	}
 }

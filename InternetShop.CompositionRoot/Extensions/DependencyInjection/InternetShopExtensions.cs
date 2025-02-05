@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace InternetShop.CompositionRoot.Extensions.DependencyInjection;
 public static class InternetShopExtensions
 {
-    public static IServiceCollection AddInternetShop(this IServiceCollection services)
+    public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
     {
         services.TryAddScoped<IUserService, UserService>();
         services.TryAddScoped<IOrderService, OrderService>();

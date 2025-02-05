@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InternetShop.API.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class ProductController : ApiControllerBase
+public class ProductController : ControllerBase
 {
     /// <summary>
     /// Добавление товара
