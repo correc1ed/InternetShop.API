@@ -14,11 +14,6 @@ public class ProductRepository : IProductRepository
 
     public async Task AddAsync(Product entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Добавляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		await _dbContext.Products.AddAsync(entity);
 
         await _dbContext.SaveChangesAsync();
@@ -52,11 +47,6 @@ public class ProductRepository : IProductRepository
 
     public async Task RemoveAsync(Product entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Удаляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Products.Remove(entity);
 
         await _dbContext.SaveChangesAsync();
@@ -64,11 +54,6 @@ public class ProductRepository : IProductRepository
 
     public async Task UpdateAsync(Product entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Обновляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Products.Update(entity);
 
         await _dbContext.SaveChangesAsync();

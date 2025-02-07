@@ -70,26 +70,11 @@ public class OrderRepository : IOrderRepository
             throw new Exception("Заказа с данным идентификатором не существует или вы не правильно его указали");
         }
 
-        if (order.User == null)
-        {
-            throw new Exception("Данный заказ не имеет пользователя.");
-        }
-
-        if (order.Products == null)
-        {
-            throw new Exception("Данный заказ не имеет продуктов");
-        }
-
         return order;
     }
 
     public async Task RemoveAsync(Order entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Удаляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Orders.Remove(entity);
 
         await _dbContext.SaveChangesAsync();
@@ -97,11 +82,6 @@ public class OrderRepository : IOrderRepository
 
     public async Task UpdateAsync(Order entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Обновляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Orders.Update(entity);
 
         await _dbContext.SaveChangesAsync();

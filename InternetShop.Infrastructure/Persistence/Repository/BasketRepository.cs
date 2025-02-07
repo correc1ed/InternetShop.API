@@ -99,10 +99,6 @@ public class BasketRepository : IBasketRepository
 
 	public async Task AddAsync(Basket entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Добавляемая сущность не может быть пустой.", nameof(entity));
-		}
 		await _dbContext.Baskets.AddAsync(entity);
 
 		await _dbContext.SaveChangesAsync();
@@ -110,11 +106,6 @@ public class BasketRepository : IBasketRepository
 
 	public async Task RemoveAsync(Basket entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Удаляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Baskets.Remove(entity);
 
 		await _dbContext.SaveChangesAsync();

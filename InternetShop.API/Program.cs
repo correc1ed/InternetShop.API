@@ -30,16 +30,7 @@ public class Program
 			var assemblies = new[]
 			{
 				Assembly.GetExecutingAssembly(),
-				typeof(DeleteProductFromBasketByIdCommand).Assembly,
-				typeof(PostAddProductToBasketByIdCommand).Assembly,
-				typeof(GetOrderInformationQuery).Assembly,
-				typeof(PostOrderCommand).Assembly,
-				typeof(PutOrderStatusCommand).Assembly,
-				typeof(PostProductCommand).Assembly,
-				typeof(PutProductCommand).Assembly,
-				typeof(PostUserLoginCommand).Assembly,
-				typeof(PostUserRegistrationCommand).Assembly,
-				typeof(PutUserProfileCommand).Assembly
+				typeof(DeleteProductFromBasketByIdCommand).Assembly
 			};
 
 			cfg.RegisterServicesFromAssemblies(assemblies);
