@@ -20,7 +20,27 @@ public class ProductService : IProductService
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
-        var product = Product.Add(request.Name, request.Description, request.Price, request.CountInStorage, request.Category);
+		if (string.IsNullOrWhiteSpace(request.Name))
+		{
+			throw new ArgumentException("Название товара не может быть пустым.", nameof(request.Name));
+		}
+
+		if (request.Price <= 0)
+		{
+			throw new ArgumentException("Цена товара должна быть больше нуля.", nameof(request.Price));
+		}
+
+		if (request.CountInStorage < 0)
+		{
+			throw new ArgumentException("Количество товара на складе не может быть отрицательным.", nameof(request.CountInStorage));
+		}
+
+		if (string.IsNullOrWhiteSpace(request.Category))
+		{
+			throw new ArgumentException("Категория товара не может быть пустой.", nameof(request.Category));
+		}
+
+		var product = Product.Add(request.Name, request.Description, request.Price, request.CountInStorage, request.Category);
 
         await _productRepository.AddAsync(product);
     }
@@ -36,7 +56,27 @@ public class ProductService : IProductService
             throw new Exception("Товара с данным идентификатором не существует или вы не правильно его указали");
         }
 
-        var updateProduct = new Product
+		if (string.IsNullOrWhiteSpace(request.Name))
+		{
+			throw new ArgumentException("Название товара не может быть пустым.", nameof(request.Name));
+		}
+
+		if (request.Price <= 0)
+		{
+			throw new ArgumentException("Цена товара должна быть больше нуля.", nameof(request.Price));
+		}
+
+		if (request.CountInStorage < 0)
+		{
+			throw new ArgumentException("Количество товара на складе не может быть отрицательным.", nameof(request.CountInStorage));
+		}
+
+		if (string.IsNullOrWhiteSpace(request.Category))
+		{
+			throw new ArgumentException("Категория товара не может быть пустой.", nameof(request.Category));
+		}
+
+		var updateProduct = new Product
         {
             Id = product.Id,
             Name = request.Name,

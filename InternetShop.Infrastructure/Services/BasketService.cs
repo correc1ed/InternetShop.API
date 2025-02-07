@@ -26,7 +26,7 @@ public class BasketService : IBasketService
 
         var basket = await _basketRepository.GetByUserIdAsync(user.Id, cancellationToken);
 
-        var product = new Product()
+		var product = new Product()
         {
             Id = Guid.NewGuid(),
             Name = request.Name,

@@ -32,11 +32,8 @@ public class UserRepository : IUserRepository
 
     public async Task AddAsync(User entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Добавляемая сущность не может быть пустой.", nameof(entity));
-		}
 		await _dbContext.Users.AddAsync(entity);
+
         await _dbContext.SaveChangesAsync();
     }
 
@@ -68,11 +65,6 @@ public class UserRepository : IUserRepository
 
     public async Task RemoveAsync(User entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Удаляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Users.Remove(entity);
 
         await _dbContext.SaveChangesAsync();
@@ -80,11 +72,6 @@ public class UserRepository : IUserRepository
 
     public async Task UpdateAsync(User entity)
 	{
-		if (entity == null)
-		{
-			throw new ArgumentException("Обновляемая сущность не может быть пустой.", nameof(entity));
-		}
-
 		_dbContext.Users.Update(entity);
 
         await _dbContext.SaveChangesAsync();

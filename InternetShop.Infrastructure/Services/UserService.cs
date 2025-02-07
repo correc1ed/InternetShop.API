@@ -1,4 +1,5 @@
-﻿using InternetShop.Domain.Entities;
+﻿using AutoMapper;
+using InternetShop.Domain.Entities;
 using InternetShop.Domain.Interfaces.Repository;
 using InternetShop.UseCases.Commands.User.PostUserLogin;
 using InternetShop.UseCases.Commands.User.PostUserRegistration;
@@ -11,12 +12,15 @@ namespace InternetShop.Infrastructure.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
     public UserService(
-        IUserRepository userRepository
+        IUserRepository userRepository,
+		IMapper mapper
     )
     {
         _userRepository = userRepository;
+		_mapper = mapper;
     }
 
     public async Task RegisterAsync(PostUserRegistrationCommand request, CancellationToken cancellationToken)
@@ -27,7 +31,7 @@ public class UserService : IUserService
         if (request.Password is null)
             throw new ArgumentNullException(nameof(request));
 
-        if (request.Password is null)
+        if (request.Password is null)   
             throw new ArgumentNullException(nameof(request));
 
         var hashedPassword = PasswordEncryptionService.HashPassword(request.Password);
@@ -53,7 +57,7 @@ public class UserService : IUserService
 
         if (PasswordEncryptionService.VerifyPassword(request.Password, user.Password))
         {
-            return LocalMapperService.ToUserDTO(user);
+            return _mapper.Map<UserDTO>(user);
         }
         else
         {
@@ -96,9 +100,28 @@ public class UserService : IUserService
         if (user == null)
         {
             throw new Exception("Пользователя с данным идентификатором не существует или вы не правильно его указали");
-        }
+		} 
 
-        var hashedPassword = PasswordEncryptionService.HashPassword(request.Password);
+		if (string.IsNullOrWhiteSpace(request.Name))
+		{
+			throw new ArgumentException("Имя пользователя не может быть пустым.", nameof(request.Name));
+		}
+
+		if (string.IsNullOrWhiteSpace(request.Email))
+		{
+			throw new ArgumentException("Почта пользователя не может быть пустой.", nameof(request.Email));
+		}
+
+		if (string.IsNullOrWhiteSpace(request.Password))
+		{
+			throw new ArgumentException("Пароль не может быть пустым.", nameof(request.Password));
+		}
+		if (request.Password.Length < 8)
+		{
+			throw new ArgumentException("Пароль должен содержать минимум 8 символов.", nameof(request.Password));
+		}
+
+		var hashedPassword = PasswordEncryptionService.HashPassword(request.Password);
 
         var resultUser = new User()
         {

@@ -5,24 +5,26 @@ using InternetShop.UseCases.Interfaces.Baskets;
 using InternetShop.UseCases.Interfaces.Orders;
 using InternetShop.UseCases.Interfaces.Products;
 using InternetShop.UseCases.Interfaces.Users;
+using InternetShop.UseCases.Mapping;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace InternetShop.CompositionRoot.Extensions.DependencyInjection;
 public static class InternetShopExtensions
 {
-    public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
-    {
-        services.TryAddScoped<IUserService, UserService>();
-        services.TryAddScoped<IOrderService, OrderService>();
-        services.TryAddScoped<IBasketService, BasketService>();
-        services.TryAddScoped<IProductService, ProductService>();
+	public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
+	{
+		services.AddScoped<IUserService, UserService>();
+		services.AddScoped<IOrderService, OrderService>();
+		services.AddScoped<IBasketService, BasketService>();
+		services.AddScoped<IProductService, ProductService>();
 
-        services.TryAddScoped<IBasketRepository, BasketRepository>();
-        services.TryAddScoped<IOrderRepository, OrderRepository>();
-        services.TryAddScoped<IUserRepository, UserRepository>();
-        services.TryAddScoped<IProductRepository, ProductRepository>();
+		services.AddScoped<IBasketRepository, BasketRepository>();
+		services.AddScoped<IOrderRepository, OrderRepository>();
+		services.AddScoped<IUserRepository, UserRepository>();
+		services.AddScoped<IProductRepository, ProductRepository>();
 
-        return services;
-    }
+		services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
+		return services;
+	}
 }
